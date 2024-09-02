@@ -1,5 +1,8 @@
 // defining and initializing variables
-let randomChoice, computerChoice, yourChoice, computerScore=0, yourScore=0;
+let randomChoice, computerChoice, yourChoice="rock", computerScore=0, yourScore=0;
+
+const q = document.querySelector("p");
+console.log(q);
 
 // defining function to generate a random computer and print the generated value to the console
 function getComputerChoice () {
@@ -7,7 +10,7 @@ function getComputerChoice () {
     if (randomChoice <= 33) {
       computerChoice = "ROCK";
     } else if (randomChoice > 66) {
-        computerChoice = "SCISSOR";;
+        computerChoice = "SCISSOR";
     } else {
         computerChoice = "PAPER";
     }
@@ -36,9 +39,11 @@ function getYourChoice () {
         i=i-1; // when input is invalid or if there is a tie the round is not counted, as such the loop value is hereby decremented by 1.
     } else if ((yourChoice === "ROCK" && computerChoice === "SCISSOR") || (yourChoice === "PAPER" && computerChoice === "ROCK") || (yourChoice === "SCISSOR" && computerChoice === "PAPER")) {
         yourScore = yourScore+1;
+        console.log(`${yourChoice} beats ${computerChoice}!`);
         console.log(`Congratulations, you won this round! - the scores are Computer : ${computerScore} and You : ${yourScore}`);
     } else {
         computerScore = computerScore + 1;
+        console.log(`${computerChoice} beats ${yourChoice}!`);
         console.log(`Sorry, you lost this round! - the scores are Computer : ${computerScore} and You : ${yourScore}`);
     }
 }
