@@ -1,5 +1,5 @@
 // defining and initializing variables
-let randomNumber, usersInput, humanChoice, computerChoice, computerScore=0, yourScore=0;
+let randomNumber, humanChoice, computerChoice, computerScore=0, yourScore=0;
 
 // defining function to generate a random computer and print the generated value to the console
 function getComputerChoice () {
@@ -13,53 +13,55 @@ function getComputerChoice () {
     }
 }
 
-// defining function to get input from user with prompt command and to print the received input to the console
-function getHumanChoice () {
+buttons = document.querySelectorAll("button");
 
-    usersInput = (prompt("Enter your Selection among Rock, Paper and Scissor")).toUpperCase(); // input received is in-case sensitivised with the help of string.toUpperCase(), therefore, irrespective of whatever case the user inputs the value in, it can be easily compared as every input is converted to Uppercase here.
-    if (usersInput === "ROCK" || usersInput === "PAPER" || usersInput === "SCISSOR") {
-        return usersInput;
-    } else {
-        return "an Invalid Choice" // yourChoice is assigned a value invalid for the purpose of meeting the requirement of line 33.
-     }
-}
-
-
-
-function playRound(humanChoice,computerChoice) {
+for (const button of buttons) {
+    button.addEventListener('click', () => { 
+    humanSelection = button.textContent;
+    computerSelection = getComputerChoice();
+    playRound(humanSelection,computerSelection);
     
-    if (humanChoice === computerChoice || humanChoice === "an Invalid Choice") {
-        console.log(`This round was either a tie or you have entered an invalid choice - the scroes are Computer : ${computerScore} and You : ${yourScore}`);
-    } else if ((humanChoice === "ROCK" && computerChoice === "SCISSOR") || (humanChoice === "PAPER" && computerChoice === "ROCK") || (humanChoice === "SCISSOR" && computerChoice === "PAPER")) {
-        yourScore = yourScore+1;
-        console.log(`${humanChoice} beats ${computerChoice}!`);
-        console.log(`Congratulations, you won this round! - the scores are Computer : ${computerScore} and You : ${yourScore}`);
-    } else {
-        computerScore = computerScore + 1;
-        console.log(`${computerChoice} beats ${humanChoice}!`);
-        console.log(`Sorry, you lost this round! - the scores are Computer : ${computerScore} and You : ${yourScore}`);
-    }
-
-    playGame ();
-
+})
 }
 
-function playGame () {
-   
-    if ((computerScore+yourScore)<5) {
-        humanSelection = getHumanChoice ();
-        computerSelection = getComputerChoice ();
-        console.log(`You Selected ${humanSelection}`)
-        console.log(`Computer Selected ${computerSelection}`)
-        playRound (humanSelection,computerSelection);
-        
-    } else if (computerScore>yourScore) {
-        console.log("Game Over!");
-        console.log("Sorry! You lost! Better luck next time!");
-    
+function playRound(humanChoice,computerChoice) { 
+
+    const human = document.querySelector('#humanChoice');
+    const comp = document.querySelector('#computerChoice');
+    const winner = document.querySelector('#winner');
+    const scores = document.querySelector('#scores');
+    const final = document.querySelector('#finalWinner');
+    human.textContent = `You Selected ${humanChoice}`; 
+    comp.textContent = `Computer Selected ${computerChoice}`;
+    if (yourScore === 5) {
+        final.textContent = "Congratulations! You won this game."
+        human.textContent = "";
+        comp.textContent = "";
+        winner.textContent = "";
+        yourScore = 0;
+        computerScore = 0;
+    } else if (computerScore === 5) {
+        final.textContent = "Sorry! You lost this game. Better luck next time."
+        yourScore = 0;
+        computerScore = 0;
+        human.textContent = "";
+        comp.textContent = "";
+        winner.textContent = "";
     } else {
-        console.log("Congratulations! You won the Game")
+        final.textContent = "";
+         if (humanChoice === computerChoice) {
+            winner.textContent = `Nobody wins!`
+            scores.textContent = `The scroes are Computer : ${computerScore} and You : ${yourScore}`
+        } else if ((humanChoice === "ROCK" && computerChoice === "SCISSOR") 
+            || (humanChoice === "PAPER" && computerChoice === "ROCK") 
+            || (humanChoice === "SCISSOR" && computerChoice === "PAPER")) {
+            yourScore = yourScore+1;
+            winner.textContent = `Congratulations! you won this round as ${humanChoice} beats ${computerChoice}!`
+            scores.textContent = `The scores are Computer : ${computerScore} and You : ${yourScore}`        
+            } else {
+            computerScore = computerScore + 1;
+            winner.textContent = `Sorry! you lost this round as {computerChoice} beats ${humanChoice}!`
+            scores.textContent = `The scores are Computer : ${computerScore} and You : ${yourScore}`
+        }
     }
 }
-
-playGame ();
